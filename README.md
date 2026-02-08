@@ -1,6 +1,6 @@
 # 故宫博物院 x LEGO | 筑梦紫禁 戏出东方
 
-Harvard BPC Case Competition Proposal | Team ID 3035
+Harvard BPC Case Competition Proposal | Team 3035 x 2045
 
 ## 项目结构
 
