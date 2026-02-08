@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>故宫博物院 x LEGO | 筑梦紫禁 戏出东方</title>
+    <style>
+        /* --- 1. 核心配色变量 (Color Palette) --- */
+        :root {
+            --palace-red: #85262B;       /* 故宫红：深沉、肃穆 */
+            --palace-red-dark: #581619;  /* 深宫红：用于渐变 */
+            --gilded-gold: #D4AF37;      /* 鎏金：高贵、金属感 */
+            --lego-yellow: #FFD500;      /* 乐高黄：鲜亮、活力 */
+            --lego-red: #D01012;         /* 乐高红：标准色 */
+            --text-light: #F4F4F4;       /* 汉白玉色：正文 */
+        }
+
+        /* --- 2. 基础重置 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Songti SC", serif;
+            background-color: var(--palace-red);
+            color: var(--text-light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- 祥云纹背景效果 --- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cdefs%3E%3Cpattern id='cloud' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Cpath d='M40 80 Q60 60 80 80 T120 80' stroke='rgba(212,175,55,0.08)' fill='none' stroke-width='1'/%3E%3Cpath d='M60 120 Q80 100 100 120 T140 120' stroke='rgba(212,175,55,0.06)' fill='none' stroke-width='0.8'/%3E%3Cpath d='M20 140 Q50 120 80 140' stroke='rgba(212,175,55,0.05)' fill='none' stroke-width='0.6'/%3E%3Cpath d='M100 40 Q130 20 160 40' stroke='rgba(212,175,55,0.06)' fill='none' stroke-width='0.7'/%3E%3Cpath d='M0 100 Q30 80 60 100' stroke='rgba(212,175,55,0.04)' fill='none' stroke-width='0.5'/%3E%3Cpath d='M120 160 Q150 140 180 160' stroke='rgba(212,175,55,0.05)' fill='none' stroke-width='0.5'/%3E%3Cellipse cx='50' cy='60' rx='20' ry='8' fill='none' stroke='rgba(212,175,55,0.04)' stroke-width='0.5'/%3E%3Cellipse cx='150' cy='100' rx='25' ry='10' fill='none' stroke='rgba(212,175,55,0.04)' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23cloud)'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 确保内容在祥云纹之上 */
+        header, section, footer { position: relative; z-index: 1; }
+
+        /* --- 3. 导航栏 (Header) --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background: rgba(88, 22, 25, 0.95); /* 半透明深宫红 */
+            border-bottom: 2px solid var(--gilded-gold);
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        /* 中间的连接符 X */
+        .logo-x {
+            font-size: 24px;
+            color: var(--gilded-gold);
+            font-weight: bold;
+        }
+
+        /* 右上角官方跳转按钮 - 关键设计 */
+        .official-link {
+            text-decoration: none;
+            color: var(--gilded-gold);
+            border: 1px solid var(--gilded-gold);
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: serif; /*以此增加正式感*/
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .official-link:hover {
+            background: var(--gilded-gold);
+            color: var(--palace-red);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        .official-link::after {
+            content: "↗"; /* 跳转箭头 */
+        }
+
+        /* --- 4. 首屏 (Hero Section) --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(88,22,25,0.8)), url('images/herobg.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--gilded-gold);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* 乐高风格主按钮 */
+        .lego-btn {
+            background-color: var(--lego-yellow);
+            color: var(--lego-red);
+            padding: 18px 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 6px 0 #ccaa00; /* 积木立体感 */
+            transition: all 0.1s;
+            position: relative;
+            /* 模拟积木凸起纹理 */
+            background-image: radial-gradient(rgba(0,0,0,0.1) 15%, transparent 16%);
+            background-size: 10px 10px; 
+            border-radius: 4px;
+        }
+
+        .lego-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #ccaa00;
+        }
+
+        .lego-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 #ccaa00;
+        }
+
+        /* --- 5. 线索区域 (Features) --- */
+        .features {
+            padding: 100px 50px;
+            background-color: var(--palace-red-dark);
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--gilded-gold);
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            border-bottom: 2px solid var(--gilded-gold);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--gilded-gold);
+            width: 300px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            background-color: #333; /* 占位色 */
+            margin-bottom: 20px;
+            object-fit: cover;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .card h3 {
+            color: var(--lego-yellow);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        /* --- 5.5 乐高故宫联名套装 --- */
+        .sets-section {
+            padding: 100px 50px;
+            background-color: var(--palace-red);
+            text-align: center;
+        }
+
+        .sets-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .set-card {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--gilded-gold);
+            width: 280px;
+            padding: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .set-card:hover {
+            transform: translateY(-10px);
+            background: rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .set-card .set-img {
+            width: 100%;
+            height: 200px;
+            background-color: #444;
+            margin-bottom: 20px;
+            object-fit: cover;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .set-card .set-tier {
+            color: var(--gilded-gold);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .set-card .set-price {
+            color: var(--lego-yellow);
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        /* --- 6. AR 预览区 (Preview) --- */
+        .ar-section {
+            padding: 100px 50px;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .ar-content {
+            max-width: 600px;
+        }
+
+        .ar-content h2 {
+            color: var(--lego-yellow);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .ar-content .ar-subtitle {
+            color: var(--gilded-gold);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+
+        .ar-content .quote {
+            border-left: 3px solid var(--gilded-gold);
+            padding-left: 16px;
+            margin: 20px 0;
+            font-style: italic;
+            color: #ddd;
+        }
+
+        .ar-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+            line-height: 1.9;
+            color: #ccc;
+        }
+
+        .ar-content li {
+            margin-bottom: 8px;
+        }
+
+        .ar-visual {
+            width: 500px;
+            height: 350px;
+            background: #000;
+            border: 4px solid var(--lego-yellow);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ar-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .ar-tag {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--palace-red);
+            color: var(--gilded-gold);
+            padding: 5px 15px;
+            font-weight: bold;
+            border: 1px solid var(--gilded-gold);
+        }
+
+        /* --- 7. 页脚 (Footer) --- */
+        footer {
+            padding: 40px;
+            text-align: center;
+            background: #1a0506;
+            color: #888;
+            font-size: 0.8rem;
+            border-top: 1px solid #333;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .header { padding: 0 20px; }
+            .official-link span { display: none; } /* 手机端隐藏部分文字 */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="images/logogugong.png" alt="故宫博物院" class="logo">
+            <span class="logo-x">×</span>
+            <img src="images/logolego.png" alt="LEGO" class="logo">
+        </div>
+        <a href="https://www.dpm.org.cn" target="_blank" class="official-link">
+            <span>回到主页</span>
+        </a>
+    </header>
+
+    <section class="hero">
+        <h1>筑梦紫禁 · 戏出东方</h1>
+        <p>以戏曲为文化入口，积木与剧场协同设计，延伸至故宫建筑智慧与文物修复工艺</p>
+        <p style="font-size: 1rem; opacity: 0.85; margin-top: 10px;">碎片线索传递历史脉络</p>
+        <button class="lego-btn" onclick="scrollToFeatures()">开启营造之旅</button>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-title">升平署 · 重构时光</h2>
+        <div class="card-container">
+            <div class="card">
+                <img src="images/cardtheatre.png" alt="戏台" class="card-img">
+                <h3>01. 拼搭戏台</h3>
+                <p>复刻升平署，在积木中重现皇家听戏的宏大规制。</p>
+            </div>
+            <div class="card">
+                <img src="images/carddougong.jpg" alt="斗拱" class="card-img">
+                <h3>02. 解构斗拱</h3>
+                <p>不用一钉一胶。探索乐高颗粒如何完美还原中国古建的力学奇迹。</p>
+            </div>
+            <div class="card">
+                <img src="images/cardrelic.png" alt="文物" class="card-img">
+                <h3>03. 修复时光</h3>
+                <p>亲手修复文物, 通过AR见证它的前世今生。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="sets-section" id="sets">
+        <h2 class="section-title">乐高故宫联名套装</h2>
+        <div class="sets-container">
+            <div class="set-card">
+                <img src="images/setentry.png" alt="入门套装" class="set-img">
+                <h3 class="set-tier">入门</h3>
+                <p class="set-price">¥2X0</p>
+            </div>
+            <div class="set-card">
+                <img src="images/setadvanced.png" alt="进阶套装" class="set-img">
+                <h3 class="set-tier">进阶</h3>
+                <p class="set-price">¥6X0</p>
+            </div>
+            <div class="set-card">
+                <img src="images/setcollector.png" alt="典藏套装" class="set-img">
+                <h3 class="set-tier">典藏</h3>
+                <p class="set-price">¥1X99</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="ar-section">
+        <div class="ar-visual">
+            <img src="images/arpreview.jpg" alt="AR演示">
+            <div class="ar-tag">AR 互动体验</div>
+        </div>
+        <div class="ar-content">
+            <h2>剧场方案</h2>
+            <p class="ar-subtitle">清宫升平署</p>
+            <h3 style="color: var(--gilded-gold); font-size: 1.3rem; margin-bottom: 16px;">剧场高潮</h3>
+            <p style="line-height: 1.8; color: #ccc;">
+                所有参与者齐聚"戏台"前。运用前两幕完成的乐高作品进行一场简短的互动式数字光影展演。将搭建好的乐高戏台置于投影区，通过AR技术，让参与者拼搭的戏曲人物"活"起来，在戏台上进行一段精华表演。将修复好的乐高文物模型进行扫描，投影出文物真实影像与历史变迁动画。将体验与历史背景轻柔连接，完成知识传递。
+            </p>
+            <p class="quote">"历史与文化，不仅可以珍藏、观看，更可以亲手搭建、创造。"</p>
+            <ul>
+                <li><strong>乐高不仅是玩具，而是文化承载物</strong></li>
+                <li><strong>传播文化和历史</strong>：通过亲手拼搭，将戏曲、古建、文物等高雅文化转化为可触碰、可理解的体验。</li>
+                <li><strong>碎片线索-最终点睛</strong>：寻找，拼接线索</li>
+                <li>沉浸式互动，摆脱传统讲述方案的无趣。</li>
+            </ul>
+            <button class="lego-btn" style="background-color:var(--gilded-gold); color:#333; margin-top: 20px;">预约线下体验</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Harvard BPC Case Competition Proposal | Team 3035 x 2045</p>
+        <p>本页面仅为BPC竞赛演示使用, 非官方商业发布。部分内容使用人工智能</p>
+    </footer>
+
+    <script>
+        // 平滑滚动脚本
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // 简单的滚动显现动画 (可选优化)
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(88, 22, 25, 1)'; // 滚动后变实色
+            } else {
+                header.style.background = 'rgba(88, 22, 25, 0.9)';
+            }
+        });
+    </script>
+</body>
+</html>
